@@ -1,4 +1,4 @@
-local DISCORD_WEBHOOK = 'https://discord.com/api/webhooks/978703100644818954/7nvgdrbVjyqXur1OYM-4wyGUaBFHU_EVNl9xhWi3woLEpW-krR21rg_GaKjSeXtKznlc'
+local DISCORD_WEBHOOK = ''
 local DISCORD_NAME = "CK-log"
 local STEAM_KEY = ""
 local DISCORD_IMAGE = "https://i.imgur.com/nOwaI24.png"
@@ -13,16 +13,16 @@ RegisterCommand("ck", function(source, args, rawCommand)
       			local xTarget = ESX.GetPlayerFromId(targetId)
       			if xTarget then
                                 local identifier = ESX.GetIdentifier(targetId)
-                                --DropPlayer(xTarget.source, 'CK Sikeres')
+                                DropPlayer(xTarget.source, 'CK Sikeres')
                                 CreateThread(function()
                                     Wait(200)
-                                    --exports.oxmysql:execute('DELETE FROM users WHERE identifier = ?', { identifier })
+                                    exports.oxmysql:execute('DELETE FROM users WHERE identifier = ?', { identifier })
                                     exports.oxmysql:execute('DELETE FROM owned_vehicles WHERE owner = ?', { identifier })
-                                    --exports.oxmysql:execute('DELETE FROM user_documents WHERE owner = ?', { identifier })
-                                    --exports.oxmysql:execute('DELETE FROM phone_users_contacts WHERE identifier = ?', { identifier })
-                                    --exports.oxmysql:execute('DELETE FROM addon_inventory_items WHERE owner = ?', { identifier })
-                                    --exports.oxmysql:execute('DELETE FROM datastore_data WHERE owner = ?', { identifier })
-                                    --exports.oxmysql:execute('DELETE FROM user_licenses WHERE owner = ?', { identifier })
+                                    exports.oxmysql:execute('DELETE FROM user_documents WHERE owner = ?', { identifier })
+                                    exports.oxmysql:execute('DELETE FROM phone_users_contacts WHERE identifier = ?', { identifier })
+                                    exports.oxmysql:execute('DELETE FROM addon_inventory_items WHERE owner = ?', { identifier })
+                                    exports.oxmysql:execute('DELETE FROM datastore_data WHERE owner = ?', { identifier })
+                                    exports.oxmysql:execute('DELETE FROM user_licenses WHERE owner = ?', { identifier })
                                     TriggerClientEvent("chatMessage", xPlayer.source, ('CK sikeres'))
                                     sendToDiscord('CK', 'Admin License: '.. xPlayer.identifier .. '\n Admin: ' ..xPlayer.name.. '\n Törlés: ' .. xTarget.identifier .. '\n Név: ' .. xPlayer.name .. '')
                                 end)
