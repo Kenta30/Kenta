@@ -1,5 +1,5 @@
 local DISCORD_WEBHOOK = ''
-local DISCORD_NAME = "CK-log"
+local DISCORD_NAME = ""
 local STEAM_KEY = ""
 local DISCORD_IMAGE = "https://i.imgur.com/nOwaI24.png"
 
