@@ -2,7 +2,7 @@ fx_version 'cerulean'
 game 'gta5'
 
 description 'esx-characterkill'
-version '1.0.0'
+version '1.0.2'
 author 'Kenta'
 
 shared_scripts { 'config.lua', '@es_extended/imports.lua'
