@@ -35,6 +35,37 @@ RegisterCommand("ck", function(source, args, rawCommand)
 	end 
 end, false)
 
+RegisterCommand("ckoffline", function(source, args, rawCommand)
+	if source ~= 0 then
+        if args ~= "" then
+  		local xPlayer = ESX.GetPlayerFromId(source)
+  		if havePermission(xPlayer) then
+		        local target = table.concat(args, " ")
+		        if target ~= "" then
+      			if target then
+                                local identifier = args
+                                CreateThread(function()
+                                    Wait(200)
+                                    exports.oxmysql:execute('DELETE FROM users WHERE identifier = ?', { identifier })
+                                    exports.oxmysql:execute('DELETE FROM owned_vehicles WHERE owner = ?', { identifier })
+                                    exports.oxmysql:execute('DELETE FROM user_documents WHERE owner = ?', { identifier })
+                                    exports.oxmysql:execute('DELETE FROM addon_inventory_items WHERE owner = ?', { identifier })
+                                    exports.oxmysql:execute('DELETE FROM datastore_data WHERE owner = ?', { identifier })
+                                    exports.oxmysql:execute('DELETE FROM user_licenses WHERE owner = ?', { identifier })
+				    exports.oxmysql:execute('DELETE FROM phone_users_contacts WHERE identifier = ?', { identifier })
+				    exports.oxmysql:execute('DELETE FROM billing WHERE identifier = ?', { identifier })
+                                    TriggerClientEvent("chatMessage", xPlayer.source, ('CK sikeres'))
+                                    sendToDiscord('CK', 'Admin License: '.. xPlayer.identifier .. '\n Admin: ' ..xPlayer.name.. '\n Törölt license: ' .. target .. '')
+                                end)
+    		        else
+      			        TriggerClientEvent("chatMessage", xPlayer.source, ('Nem található játékos'))
+    		        end
+                        end
+                end
+        end
+	end 
+end, false)
+
 function havePermission(xPlayer, exclude)
 	if exclude and type(exclude) ~= 'table' then exclude = nil;print("^3[esx_characterkill] ^1ERROR ^0exclude argument is not table..^0") end
 
