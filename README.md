@@ -7,4 +7,4 @@ oxmysql
 
 easy to use
 command:
---> ck [id]
+--> ck [id] or ckoffline [license]
