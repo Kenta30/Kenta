@@ -60,7 +60,7 @@ RegisterCommand("ckoffline", function(source, args, rawCommand)
 				    exports.oxmysql:execute('DELETE FROM billing WHERE identifier = ?', { identifier })
                                     TriggerClientEvent("chatMessage", xPlayer.source, ('CK sikeres'))
 				    print('Ck sikeres')
-                                    sendToDiscord('CK', 'Admin License: '.. xPlayer.identifier .. '\n Admin: ' ..xPlayer.name.. '\n Törölt license: ' ..args[1])
+                                    sendToDiscord('CK Offline', 'Admin License: '.. xPlayer.identifier .. '\n Admin: ' ..xPlayer.name.. '\n Törölt license: ' ..args[1])
                                 end)
     		      else
       			        TriggerClientEvent("chatMessage", xPlayer.source, ('Nem található játékos'))
