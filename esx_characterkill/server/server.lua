@@ -8,7 +8,7 @@ RegisterCommand("ck", function(source, args, rawCommand)
 	if source ~= 0 then
   		local xPlayer = ESX.GetPlayerFromId(source)
   		if havePermission(xPlayer) then
-    		if args[1] and tonumber(args[1]) then
+    		   if args[1] and tonumber(args[1]) then
       			local targetId = tonumber(args[1])
       			local xTarget = ESX.GetPlayerFromId(targetId)
       			if xTarget then
@@ -25,12 +25,15 @@ RegisterCommand("ck", function(source, args, rawCommand)
 				    exports.oxmysql:execute('DELETE FROM phone_users_contacts WHERE identifier = ?', { identifier })
 				    exports.oxmysql:execute('DELETE FROM billing WHERE identifier = ?', { identifier })
                                     TriggerClientEvent("chatMessage", xPlayer.source, ('CK sikeres'))
+				    print('Ck sikeres')
                                     sendToDiscord('CK', 'Admin License: '.. xPlayer.identifier .. '\n Admin: ' ..xPlayer.name.. '\n Törlés: ' .. xTarget.identifier .. '\n Név: ' .. xTarget.name .. '')
                                 end)
     		        else
       			        TriggerClientEvent("chatMessage", xPlayer.source, ('Nem található játékos'))
     		        end
-                end
+                   end
+		else
+		    TriggerClientEvent("chatMessage", xPlayer.source, ('Nincs hozzá jogosultságod'))	
                 end
 	end 
 end, false)
@@ -38,11 +41,12 @@ end, false)
 RegisterCommand("ckoffline", function(source, args, rawCommand)
 	if source ~= 0 then
         if args ~= "" then
-  		local xPlayer = ESX.GetPlayerFromId(source)
-  		if havePermission(xPlayer) then
-		        local target = table.concat(args, " ")
-		        if target ~= "" then
-      			if target then
+  	   local xPlayer = ESX.GetPlayerFromId(source)
+  	   if havePermission(xPlayer) then
+	        MySQL.Async.fetchAll('SELECT * FROM users WHERE identifier = @identifier', {
+		   ['@identifier'] = args
+	        }, function(result)
+		      if result[1] then
                                 local identifier = args
                                 CreateThread(function()
                                     Wait(200)
@@ -55,13 +59,17 @@ RegisterCommand("ckoffline", function(source, args, rawCommand)
 				    exports.oxmysql:execute('DELETE FROM phone_users_contacts WHERE identifier = ?', { identifier })
 				    exports.oxmysql:execute('DELETE FROM billing WHERE identifier = ?', { identifier })
                                     TriggerClientEvent("chatMessage", xPlayer.source, ('CK sikeres'))
-                                    sendToDiscord('CK', 'Admin License: '.. xPlayer.identifier .. '\n Admin: ' ..xPlayer.name.. '\n Törölt license: ' .. target .. '')
+				    print('Ck sikeres')
+                                    sendToDiscord('CK', 'Admin License: '.. xPlayer.identifier .. '\n Admin: ' ..xPlayer.name.. '\n Törölt license: ' ..args[1])
                                 end)
-    		        else
+    		      else
       			        TriggerClientEvent("chatMessage", xPlayer.source, ('Nem található játékos'))
-    		        end
-                        end
-                end
+				print('Ck sikertelen')
+    		      end
+                end)
+	   else
+               TriggerClientEvent("chatMessage", xPlayer.source, ('Nincs hozzá jogosultságod'))
+           end
         end
 	end 
 end, false)
