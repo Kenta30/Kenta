@@ -5,6 +5,5 @@ Requirements:
 esx_legacy,
 oxmysql
 
-easy to use
-command:
+easy to use:
 --> ck [id] or ckoffline [license]
