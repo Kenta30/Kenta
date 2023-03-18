@@ -27,7 +27,7 @@ RegisterCommand("ck", function(source, args, rawCommand)
 				    exports.oxmysql:execute('DELETE FROM billing WHERE identifier = ?', { identifier })
 	                            xPlayer.showNotification('CK sikeres')
                                     print('Ck sikeres')
-                                    sendToDiscord('CK', 'Admin License: ' ..xPlayer.identifier.. '\n Admin: ' ..xPlayer.name.. '\n Törlés: ' ..xTarget.identifier.. '\n Név: ' ..xTarget.getName())
+                                    sendToDiscord('CK', 'Admin License: ' ..xPlayer.identifier.. '\n Admin: ' ..GetPlayerName(source).. '\n Törlés: ' ..xTarget.identifier.. '\n Név: ' ..GetPlayerName(targetId))
                                 end)
     		        else
 	                        xPlayer.showNotification('Nem található játékos')
