@@ -6,9 +6,10 @@ local DISCORD_IMAGE = "https://i.imgur.com/nOwaI24.png"
 
 RegisterCommand("ck", function(source, args, rawCommand)
 	if source ~= 0 then
+		local source = source
   		local xPlayer = ESX.GetPlayerFromId(source)
   		if havePermission(xPlayer) then
-    		   if args[1] and tonumber(args[1]) then
+    		  if args[1] and tonumber(args[1]) then
       			local targetId = tonumber(args[1])
       			local xTarget = ESX.GetPlayerFromId(targetId)
       			if xTarget then
@@ -24,16 +25,17 @@ RegisterCommand("ck", function(source, args, rawCommand)
                                     exports.oxmysql:execute('DELETE FROM user_licenses WHERE owner = ?', { identifier })
 				    exports.oxmysql:execute('DELETE FROM phone_users_contacts WHERE identifier = ?', { identifier })
 				    exports.oxmysql:execute('DELETE FROM billing WHERE identifier = ?', { identifier })
-                                    TriggerClientEvent("chatMessage", xPlayer.source, ('CK sikeres'))
-				    print('Ck sikeres')
-                                    sendToDiscord('CK', 'Admin License: '.. xPlayer.identifier .. '\n Admin: ' ..GetPlayerName(source).. '\n Törlés: ' .. xTarget.identifier .. '\n Név: ' .. xTarget.name .. '')
+	                            xPlayer.showNotification('CK sikeres')
+                                    print('Ck sikeres')
+                                    sendToDiscord('CK', 'Admin License: ' ..xPlayer.identifier.. '\n Admin: ' ..xPlayer.name.. '\n Törlés: ' ..xTarget.identifier.. '\n Név: ' ..xTarget.getName())
                                 end)
     		        else
-      			        TriggerClientEvent("chatMessage", xPlayer.source, ('Nem található játékos'))
+	                        xPlayer.showNotification('Nem található játékos')
+                                print('Ck sikertelen')
     		        end
-                   end
-		else
-		    TriggerClientEvent("chatMessage", xPlayer.source, ('Nincs hozzá jogosultságod'))	
+                  end
+                else
+	                xPlayer.showNotification('Nincs hozzá jogosultságod')
                 end
 	end 
 end, false)
@@ -41,11 +43,10 @@ end, false)
 RegisterCommand("ckoffline", function(source, args, rawCommand)
 	if source ~= 0 then
         if args ~= "" then
+	   local source = source
   	   local xPlayer = ESX.GetPlayerFromId(source)
   	   if havePermission(xPlayer) then
-	        MySQL.Async.fetchAll('SELECT * FROM users WHERE identifier = @identifier', {
-		   ['@identifier'] = args
-	        }, function(result)
+	        MySQL.query('SELECT * FROM users WHERE identifier = ?', {args}, function(result)
 		      if result[1] then
                                 local identifier = args
                                 CreateThread(function()
@@ -58,17 +59,17 @@ RegisterCommand("ckoffline", function(source, args, rawCommand)
                                     exports.oxmysql:execute('DELETE FROM user_licenses WHERE owner = ?', { identifier })
 				    exports.oxmysql:execute('DELETE FROM phone_users_contacts WHERE identifier = ?', { identifier })
 				    exports.oxmysql:execute('DELETE FROM billing WHERE identifier = ?', { identifier })
-                                    TriggerClientEvent("chatMessage", xPlayer.source, ('CK sikeres'))
-				    print('Ck sikeres')
+	                            xPlayer.showNotification('CK sikeres')
+                                    print('Ck sikeres')
                                     sendToDiscord('CK Offline', 'Admin License: '.. xPlayer.identifier .. '\n Admin: ' ..GetPlayerName(source).. '\n Törölt license: ' ..args[1])
                                 end)
     		      else
-      			        TriggerClientEvent("chatMessage", xPlayer.source, ('Nem található játékos'))
+	                        xPlayer.showNotification('Nem található játékos')
 				print('Ck sikertelen')
     		      end
                 end)
 	   else
-               TriggerClientEvent("chatMessage", xPlayer.source, ('Nincs hozzá jogosultságod'))
+	              xPlayer.showNotification('Nincs hozzá jogosultságod')
            end
         end
 	end 
