@@ -75,22 +75,11 @@ RegisterCommand("ckoffline", function(source, args, rawCommand)
 	end 
 end, false)
 
-function havePermission(xPlayer, exclude)
-	if exclude and type(exclude) ~= 'table' then exclude = nil;print("^3[esx_characterkill] ^1ERROR ^0exclude argument is not table..^0") end
-
+function havePermission(xPlayer)
 	local playerGroup = xPlayer.getGroup()
 	for k,v in pairs(Config.adminRangok) do
 		if v == playerGroup then
-			if not exclude then
-				return true
-			else
-				for a,b in pairs(exclude) do
-					if b == v then
-						return false
-					end
-				end
-				return true
-			end
+			return true
 		end
 	end
 	return false
