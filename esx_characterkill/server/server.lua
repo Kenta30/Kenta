@@ -4,7 +4,7 @@ local STEAM_KEY = ""
 local DISCORD_IMAGE = "https://i.imgur.com/nOwaI24.png"
 
 
-RegisterCommand("ck", function(source, args, rawCommand)
+RegisterCommand("ck", function(source, args)
 	if source ~= 0 then
 		local source = source
   		local xPlayer = ESX.GetPlayerFromId(source)
@@ -40,7 +40,7 @@ RegisterCommand("ck", function(source, args, rawCommand)
 	end 
 end, false)
 
-RegisterCommand("ckoffline", function(source, args, rawCommand)
+RegisterCommand("ckoffline", function(source, args)
 	if source ~= 0 then
         if args ~= "" then
 	   local source = source
